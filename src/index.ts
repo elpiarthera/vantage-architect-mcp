@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Entry point — `@vantage/mcp-architect`
+ * Entry point — `@vantageos/mcp-architect`
  *
  * Boots the MCP server over stdio transport. The HTTP transport is opt-in
  * (env var `MCP_HTTP_PORT`) and used for the optional Railway remote-demo

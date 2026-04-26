@@ -1,4 +1,4 @@
-# Architecture — `@vantage/mcp-architect`
+# Architecture — `@vantageos/mcp-architect`
 
 Version : 1.0.0 · Date : 2026-04-26
 
@@ -83,7 +83,7 @@ These alternatives are intentional — they de-risk the MCP App bet without lock
 
 Targeted at v1.0 publish (handled by `mcp-publisher` agent in T8) :
 
-- npm : `@vantage/mcp-architect@1.0.0`.
+- npm : `@vantageos/mcp-architect@1.0.0`.
 - GitHub release : `v1.0.0` on `elpiarthera/vantage-architect-mcp`.
 - claudemarketplaces.com : listing via `generate-marketplace`.
 - VantageRegistry : `mcp__vantage-registry__upsert_plugin` (category `mcp-app`, bilingual `true`).

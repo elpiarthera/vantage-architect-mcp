@@ -1,5 +1,5 @@
 /**
- * MCP server factory — registers the 4 tools of @vantage/mcp-architect.
+ * MCP server factory — registers the 4 tools of @vantageos/mcp-architect.
  *
  * Real `Server` instance from `@modelcontextprotocol/sdk` is wired in `index.ts`.
  * This factory is consumed by both the stdio entry point and the integration

@@ -1,10 +1,10 @@
-# `@vantage/mcp-architect`
+# `@vantageos/mcp-architect`
 
 > Turn any high-level requirement into a structured visual spec/plan with hierarchical drill-down. First ElPi Corp MCP App, built on the `io.modelcontextprotocol/ui` standard (stable 2026-01-26). Bilingual FR + EN.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) ![MCP App](https://img.shields.io/badge/mcp--app-1.0.0-purple) ![Bilingual](https://img.shields.io/badge/i18n-FR%20%2B%20EN-green) ![WCAG AA](https://img.shields.io/badge/a11y-WCAG%20AA-success)
 
-**SELLABLE AS** : `vantage-architect-mcp` plugin (claudemarketplaces.com) + npm `@vantage/mcp-architect`.
+**SELLABLE AS** : `vantage-architect-mcp` plugin (claudemarketplaces.com) + npm `@vantageos/mcp-architect`.
 
 ## Why
 
@@ -13,7 +13,7 @@ Specs and plans are usually returned as a wall of text. This MCP App returns the
 ## Install
 
 ```bash
-npx -y @vantage/mcp-architect
+npx -y @vantageos/mcp-architect
 ```
 
 Or in your `mcp.json` :
@@ -23,7 +23,7 @@ Or in your `mcp.json` :
   "mcpServers": {
     "vantage-architect": {
       "command": "npx",
-      "args": ["-y", "@vantage/mcp-architect"]
+      "args": ["-y", "@vantageos/mcp-architect"]
     }
   }
 }

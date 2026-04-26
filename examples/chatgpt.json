@@ -4,7 +4,7 @@
       "name": "vantage-architect",
       "transport": "stdio",
       "command": "npx",
-      "args": ["-y", "@vantage/mcp-architect"],
+      "args": ["-y", "@vantageos/mcp-architect"],
       "extensions": ["io.modelcontextprotocol/ui"]
     }
   ]

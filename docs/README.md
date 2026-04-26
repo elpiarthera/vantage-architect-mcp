@@ -1,4 +1,4 @@
-# Docs index — `@vantage/mcp-architect`
+# Docs index — `@vantageos/mcp-architect`
 
 - `README.md` (root) — Quick start (EN).
 - `README.fr.md` (root) — Démarrage rapide (FR).

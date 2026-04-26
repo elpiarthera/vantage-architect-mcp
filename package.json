@@ -1,6 +1,6 @@
 {
-  "name": "@vantage/mcp-architect",
-  "version": "1.0.0",
+  "name": "@vantageos/mcp-architect",
+  "version": "1.0.1",
   "description": "MCP App that turns a high-level requirement into a structured visual spec/plan (hierarchical drill-down). First ElPi Corp MCP App built on the io.modelcontextprotocol/ui standard. Bilingual FR+EN.",
   "description_fr": "MCP App qui transforme une exigence haut niveau en une spec/plan visuelle structurée (drill-down hiérarchique). Première MCP App ElPi Corp basée sur le standard io.modelcontextprotocol/ui. Bilingue FR+EN.",
   "keywords": [

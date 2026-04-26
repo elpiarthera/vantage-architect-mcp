@@ -1,6 +1,11 @@
-# Changelog — `@vantage/mcp-architect`
+# Changelog — `@vantageos/mcp-architect`
 
 All notable changes documented here. SemVer strict (Critical Rule #8 mcp-app-standard).
+
+## [1.0.1] - 2026-04-26
+### Changed
+- Renamed npm scope `@vantage` → `@vantageos` for ElPi Corp brand unification.
+- No behavioral change. Install: `npx -y @vantageos/mcp-architect`.
 
 ## [1.0.0] — 2026-04-26
 

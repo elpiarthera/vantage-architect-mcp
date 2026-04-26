@@ -1,4 +1,4 @@
-# UI Spec — `@vantage/mcp-architect`
+# UI Spec — `@vantageos/mcp-architect`
 
 Components and interactions. Stack : React 19 + Tailwind v4 + lit-ui patterns + custom minimal SVG for `<GraphView>`.
 

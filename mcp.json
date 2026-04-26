@@ -1,12 +1,12 @@
 {
   "name": "vantage-architect-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP App producing structured visual spec/plan trees with drill-down. First ElPi Corp MCP App on io.modelcontextprotocol/ui. Bilingual FR+EN.",
   "description_fr": "MCP App produisant des arbres de spec/plan visuels structurés avec drill-down. Première MCP App ElPi Corp sur io.modelcontextprotocol/ui. Bilingue FR+EN.",
   "transport": {
     "type": "stdio",
     "command": "npx",
-    "args": ["-y", "@vantage/mcp-architect"]
+    "args": ["-y", "@vantageos/mcp-architect"]
   },
   "capabilities": {
     "tools": true,

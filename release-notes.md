@@ -54,7 +54,7 @@ Pass `locale: "fr"` (or `"en"`) to any tool. Manifest descriptions, error messag
 ## Install
 
 ```bash
-npx -y @vantage/mcp-architect
+npx -y @vantageos/mcp-architect
 ```
 
 Or in your `mcp.json`:
@@ -64,7 +64,7 @@ Or in your `mcp.json`:
   "mcpServers": {
     "vantage-architect": {
       "command": "npx",
-      "args": ["-y", "@vantage/mcp-architect"]
+      "args": ["-y", "@vantageos/mcp-architect"]
     }
   }
 }
