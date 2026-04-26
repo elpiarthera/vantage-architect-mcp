@@ -2,6 +2,13 @@
 
 All notable changes documented here. SemVer strict (Critical Rule #8 mcp-app-standard).
 
+## [1.0.6] - 2026-04-26
+### Fixed
+- **CRITICAL** decompose_spec (and audited 4 tools: decompose_spec, expand_node, render_architecture, export_spec) returned malformed MCP content[] — items must conform to `{type:"text"|"image"|"resource"|"resource_link"|"audio", ...}`. The `resource` content-block in v1.0.5 used non-standard fields (`bundle`, `props`) instead of the required `text` (or `blob`) field. This caused client error -32602 "Invalid tools/call result". Fix: `buildUiResource` now reads the HTML bundle from disk, injects props via `<script>window.__MCP_PROPS__ = {...}</script>`, and returns a fully spec-compliant `{ uri, mimeType: "text/html", text: inlinedHtml }` block. Structured data remains in `structuredContent` top-level field (unchanged).
+
+### Added
+- Tool invocation smoke test in pre-publish gate: `scripts/smoke-test-boot.sh` now chains initialize → tools/list → tools/call decompose_spec, verifies no -32602 error and valid `content[]`. Lesson #13 capture (Day 51 PM Eta HARD-GATE: broken handler despite clean boot). Gate blocks `npm publish` via `prepublishOnly`.
+
 ## [1.0.5] - 2026-04-26
 ### Fixed
 - **CRITICAL** boot crash on v1.0.4: server `setRequestHandler` was using a custom Zod schema that dropped the required `method` literal. Restored MCP SDK-provided `CallToolRequestSchema` / `ListToolsRequestSchema` imports. Server now boots and responds to MCP `initialize` handshake.
