@@ -58,10 +58,17 @@ async function main() {
       }
 
       const res = await tool.handler(input);
-      void res;
       if (c.expect?.throws) {
+        // v1.0.4: input-validation failures now return readable
+        // `{isError:true}` instead of throwing a generic error. Both
+        // satisfy the eval intent ("must not succeed silently").
+        if (res?.isError === true) {
+          pass += 1;
+          console.log(`PASS: ${c.id} (isError as expected)`);
+          continue;
+        }
         fail += 1;
-        console.error(`FAIL: ${c.id} (expected throw)`);
+        console.error(`FAIL: ${c.id} (expected throw or isError)`);
         continue;
       }
       pass += 1;

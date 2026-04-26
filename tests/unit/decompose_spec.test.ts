@@ -37,15 +37,15 @@ describe("tool: decompose_spec", () => {
     );
   });
 
-  it("rejects too-short requirements via inputSchema", async () => {
-    await expect(
-      decomposeSpec.handler({
-        requirement: "too short",
-        domain: "software",
-        depth: 3,
-        locale: "en",
-      }),
-    ).rejects.toThrow();
+  it("rejects too-short requirements via inputSchema (returns isError)", async () => {
+    const res = await decomposeSpec.handler({
+      requirement: "too short",
+      domain: "software",
+      depth: 3,
+      locale: "en",
+    });
+    expect(res.isError).toBe(true);
+    expect((res.content[0] as { text: string }).text).toMatch(/requirement/);
   });
 
   // Fallback case (Critical Rule #1) — text content alone is meaningful.

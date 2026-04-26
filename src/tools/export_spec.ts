@@ -11,9 +11,18 @@ import { renderMarkdownTree, renderMermaid } from "../lib/fallback.js";
 import { buildUiResource } from "../lib/ui-resource.js";
 
 export const inputSchema = z.object({
-  tree_id: TreeIdSchema,
-  format: z.enum(["markdown", "json", "mermaid"]).default("markdown"),
-  locale: LocaleSchema.default("en"),
+  tree_id: TreeIdSchema.describe(
+    "Tree ID returned by a previous decompose_spec call (must match /^tree_[a-z0-9]{6,}$/)",
+  ),
+  format: z
+    .enum(["markdown", "json", "mermaid"])
+    .default("markdown")
+    .describe(
+      "Export format: 'markdown' (default nested bullets) | 'json' (full NodeSchema) | 'mermaid' (diagram code)",
+    ),
+  locale: LocaleSchema.default("en").describe(
+    "Locale for output: 'en' (default) | 'fr'",
+  ),
 });
 
 export const outputSchema = z.object({
@@ -29,7 +38,25 @@ export const description_fr =
   "Exporte la spec en markdown, JSON ou diagramme Mermaid. Utilise-le quand l'utilisateur veut copier, partager ou persister la sortie structurée — même s'il ne dit pas 'exporter' explicitement.";
 
 export async function handler(rawInput: unknown) {
-  const input = inputSchema.parse(rawInput);
+  let input: z.infer<typeof inputSchema>;
+  try {
+    input = inputSchema.parse(rawInput);
+  } catch (e) {
+    if (e instanceof z.ZodError) {
+      const msg = e.errors
+        .map(
+          (err) => `${err.path.join(".") || "<root>"}: ${err.message}`,
+        )
+        .join("; ");
+      return {
+        content: [
+          { type: "text" as const, text: `Validation error: ${msg}` },
+        ],
+        isError: true,
+      };
+    }
+    throw e;
+  }
   const stored = getTree(input.tree_id);
   if (!stored) {
     throw new Error(`tree_id not found: ${input.tree_id}`);

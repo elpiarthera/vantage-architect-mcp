@@ -22,9 +22,22 @@ export const inputSchema = z.object({
     .string()
     .min(50)
     .describe("High-level requirement / product idea / feature ask"),
-  domain: z.enum(DOMAINS).default("software"),
-  depth: z.number().int().min(1).max(4).default(3),
-  locale: LocaleSchema.default("en"),
+  domain: z
+    .enum(DOMAINS)
+    .default("software")
+    .describe(
+      "Decomposition domain: 'software' (default) | 'product' | 'process' | 'research'",
+    ),
+  depth: z
+    .number()
+    .int()
+    .min(1)
+    .max(4)
+    .default(3)
+    .describe("Decomposition depth (integer 1..4, default 3)"),
+  locale: LocaleSchema.default("en").describe(
+    "Locale for output: 'en' (default) | 'fr'",
+  ),
 });
 
 export const outputSchema = z.object({
@@ -44,7 +57,25 @@ export const description_fr =
   "Décompose une exigence de haut niveau en un arbre de spec structuré hiérarchique. Utilise-le quand l'utilisateur demande une architecture, un plan, une décomposition ou 'comment structurer X' — même s'il ne dit pas 'décomposer' explicitement.";
 
 export async function handler(rawInput: unknown) {
-  const input = inputSchema.parse(rawInput);
+  let input: DecomposeInput;
+  try {
+    input = inputSchema.parse(rawInput);
+  } catch (e) {
+    if (e instanceof z.ZodError) {
+      const msg = e.errors
+        .map(
+          (err) => `${err.path.join(".") || "<root>"}: ${err.message}`,
+        )
+        .join("; ");
+      return {
+        content: [
+          { type: "text" as const, text: `Validation error: ${msg}` },
+        ],
+        isError: true,
+      };
+    }
+    throw e;
+  }
   const root = decompose(input);
   const tree_id = freshTreeId();
   const fetchedAt = new Date().toISOString();

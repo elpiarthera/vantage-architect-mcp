@@ -29,11 +29,11 @@ describe("tool: export_spec", () => {
     expect(res.structuredContent.payload).toMatch(/^graph TD/);
   });
 
-  it("rejects invalid format", async () => {
-    await expect(
-      // @ts-expect-error invalid format on purpose
-      exportSpec.handler({ tree_id, format: "pdf", locale: "en" }),
-    ).rejects.toThrow();
+  it("rejects invalid format (returns isError)", async () => {
+    // @ts-expect-error invalid format on purpose
+    const res = await exportSpec.handler({ tree_id, format: "pdf", locale: "en" });
+    expect(res.isError).toBe(true);
+    expect((res.content[0] as { text: string }).text).toMatch(/format/);
   });
 
   it("fallback : payload is the text content (works without UI extension)", async () => {

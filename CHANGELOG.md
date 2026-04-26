@@ -2,6 +2,13 @@
 
 All notable changes documented here. SemVer strict (Critical Rule #8 mcp-app-standard).
 
+## [1.0.4] - 2026-04-26
+### Fixed
+- Functional fix: Zod enum validation errors are now surfaced as readable MCP `isError: true` responses (with offending field name + message) instead of being swallowed as a generic "Internal error". Affected tools: `decompose_spec`, `render_architecture`, `expand_node`, `export_spec`.
+- Documentation: every `z.enum(...)` field across the 4 tools now carries a `.describe()` listing explicit accepted values (`domain`, `view`, `format`, `locale`, `type`). MCP clients can now display valid enum values to users and LLMs.
+- Tests: 5 new cases (`tests/unit/zod-error-handling.test.ts`) lock the `isError` contract per tool. Existing "rejects with throw" cases updated to assert the new readable-error contract. Eval runner accepts both throw and `isError` for `expect.throws` cases.
+- No API change beyond improved error shape. Drop-in replacement for v1.0.3.
+
 ## [1.0.3] - 2026-04-26
 ### Changed
 - Cleanup: removed internal "SELLABLE AS" markers and forward-looking timeline references from public surfaces (README EN/FR, release notes).

@@ -28,7 +28,11 @@ export const NodeSchema: z.ZodType<ArchitectNode> = z.lazy(() =>
   z.object({
     id: z.string().min(1),
     name: z.string().min(1),
-    type: z.enum(NODE_TYPES),
+    type: z
+      .enum(NODE_TYPES)
+      .describe(
+        "Node type: 'component' | 'module' | 'feature' | 'task' | 'decision'",
+      ),
     description: z.string(),
     children: z.array(NodeSchema).optional(),
     metadata: z.record(
@@ -38,8 +42,20 @@ export const NodeSchema: z.ZodType<ArchitectNode> = z.lazy(() =>
   }),
 );
 
-export const TreeIdSchema = z.string().regex(/^tree_[a-z0-9]{6,}$/);
-export const NodeIdSchema = z.string().regex(/^node_[a-z0-9_]{1,}$/);
+export const TreeIdSchema = z
+  .string()
+  .regex(/^tree_[a-z0-9]{6,}$/)
+  .describe(
+    "Tree identifier returned by decompose_spec — pattern /^tree_[a-z0-9]{6,}$/",
+  );
+export const NodeIdSchema = z
+  .string()
+  .regex(/^node_[a-z0-9_]{1,}$/)
+  .describe(
+    "Node identifier within a decomposed tree — pattern /^node_[a-z0-9_]+$/",
+  );
 
-export const LocaleSchema = z.enum(["en", "fr"]);
+export const LocaleSchema = z
+  .enum(["en", "fr"])
+  .describe("Locale: 'en' | 'fr'");
 export type Locale = z.infer<typeof LocaleSchema>;

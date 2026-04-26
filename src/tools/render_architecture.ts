@@ -12,14 +12,23 @@ import { buildUiResource } from "../lib/ui-resource.js";
 
 export const inputSchema = z.object({
   tree_id: TreeIdSchema.describe("Tree ID returned by a previous decompose_spec call"),
-  view: z.enum(["tree", "graph", "matrix"]).default("tree"),
-  locale: LocaleSchema.default("en"),
+  view: z
+    .enum(["tree", "graph", "matrix"])
+    .default("tree")
+    .describe(
+      "Render view type: 'tree' (default drill-down) | 'graph' (force-directed) | 'matrix' (table)",
+    ),
+  locale: LocaleSchema.default("en").describe(
+    "Locale for output: 'en' (default) | 'fr'",
+  ),
 });
 
 export const outputSchema = z.object({
   tree_id: z.string(),
   root: NodeSchema,
-  view: z.enum(["tree", "graph", "matrix"]),
+  view: z
+    .enum(["tree", "graph", "matrix"])
+    .describe("Echoed view type: 'tree' | 'graph' | 'matrix'"),
   fetchedAt: z.string().datetime(),
 });
 
@@ -30,7 +39,25 @@ export const description_fr =
   "Rend l'architecture/plan en UI visuelle interactive (vue arbre/graphe/matrice avec drill-down). Utilise-le quand l'utilisateur veut voir la structure visuellement, ou après decompose_spec — même s'il ne dit pas 'afficher' explicitement.";
 
 export async function handler(rawInput: unknown) {
-  const input = inputSchema.parse(rawInput);
+  let input: z.infer<typeof inputSchema>;
+  try {
+    input = inputSchema.parse(rawInput);
+  } catch (e) {
+    if (e instanceof z.ZodError) {
+      const msg = e.errors
+        .map(
+          (err) => `${err.path.join(".") || "<root>"}: ${err.message}`,
+        )
+        .join("; ");
+      return {
+        content: [
+          { type: "text" as const, text: `Validation error: ${msg}` },
+        ],
+        isError: true,
+      };
+    }
+    throw e;
+  }
   const stored = getTree(input.tree_id);
   if (!stored) {
     throw new Error(`tree_id not found: ${input.tree_id}`);

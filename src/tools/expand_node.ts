@@ -14,10 +14,23 @@ import { renderMarkdownNode } from "../lib/fallback.js";
 import { buildUiResource } from "../lib/ui-resource.js";
 
 export const inputSchema = z.object({
-  node_id: NodeIdSchema,
-  expansion_depth: z.number().int().min(1).max(2).default(1),
-  tree_id: z.string().optional(),
-  locale: LocaleSchema.default("en"),
+  node_id: NodeIdSchema.describe(
+    "Node ID to expand (must match /^node_[a-z0-9_]+$/)",
+  ),
+  expansion_depth: z
+    .number()
+    .int()
+    .min(1)
+    .max(2)
+    .default(1)
+    .describe("Expansion depth (integer 1..2, default 1)"),
+  tree_id: z
+    .string()
+    .optional()
+    .describe("Optional source tree_id for re-indexing context"),
+  locale: LocaleSchema.default("en").describe(
+    "Locale for output: 'en' (default) | 'fr'",
+  ),
 });
 
 export const outputSchema = z.object({
@@ -33,7 +46,25 @@ export const description_fr =
   "Développe un nœud spécifique en profondeur. Déclenché par les clics UI via le bridge. Utilise-le quand un utilisateur clique sur un nœud pour drill-down.";
 
 export async function handler(rawInput: unknown) {
-  const input = inputSchema.parse(rawInput);
+  let input: z.infer<typeof inputSchema>;
+  try {
+    input = inputSchema.parse(rawInput);
+  } catch (e) {
+    if (e instanceof z.ZodError) {
+      const msg = e.errors
+        .map(
+          (err) => `${err.path.join(".") || "<root>"}: ${err.message}`,
+        )
+        .join("; ");
+      return {
+        content: [
+          { type: "text" as const, text: `Validation error: ${msg}` },
+        ],
+        isError: true,
+      };
+    }
+    throw e;
+  }
   const node = getNode(input.node_id);
   if (!node) {
     throw new Error(`node_id not found: ${input.node_id}`);
