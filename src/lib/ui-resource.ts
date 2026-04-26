@@ -1,8 +1,16 @@
 /**
  * UI resource builder for io.modelcontextprotocol/ui (stable 2026-01-26).
  *
- * Returns a `ui://` resource pointing at the single-file bundle produced by
- * `npm run build:ui`. Props are injected by the host runtime as `window.__MCP_PROPS__`.
+ * Returns an MCP-compliant `EmbeddedResource` (uri + mimeType + text), with
+ * the io.modelcontextprotocol/ui extension payload exposed via `_meta` per
+ * MCP spec 2024-11-05. Top-level `text` field carries the JSON-stringified
+ * extension payload as a transport-safe fallback for MCP clients that don't
+ * recognise the io.modelcontextprotocol/ui extension.
+ *
+ * v1.0.6 fix : v1.0.5 returned non-MCP-compliant resource shape (custom
+ * `bundle`, `props`, `extension` fields, no `text` or `blob`) → MCP SDK
+ * client rejects with `-32602 "Invalid tools/call result"`. Fix restores
+ * spec compliance while preserving extension payload via `_meta`.
  *
  * Sandbox compliance reminder (Critical Rule #4 mcp-app-standard) :
  *   - Bundle MUST NOT touch window.parent / localStorage / cookie / fetch externe.
@@ -20,17 +28,26 @@ export interface UiResourceProps {
 export interface UiResource {
   uri: string;
   mimeType: "text/html";
-  bundle: string; // path resolved at host runtime
-  props: UiResourceProps;
-  extension: "io.modelcontextprotocol/ui";
+  text: string;
+  _meta: {
+    "io.modelcontextprotocol/ui": {
+      bundle: string;
+      props: UiResourceProps;
+    };
+  };
 }
 
 export function buildUiResource(props: UiResourceProps): UiResource {
+  const bundle = "dist/ui/architect.html";
   return {
     uri: `ui://vantage-architect/${props.tree_id}?view=${props.view}&locale=${props.locale}`,
     mimeType: "text/html",
-    bundle: "dist/ui/architect.html",
-    props,
-    extension: "io.modelcontextprotocol/ui",
+    text: JSON.stringify({ bundle, props }),
+    _meta: {
+      "io.modelcontextprotocol/ui": {
+        bundle,
+        props,
+      },
+    },
   };
 }
