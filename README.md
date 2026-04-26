@@ -67,11 +67,15 @@ Pass `locale: "fr"` to receive French node names + descriptions ; the UI also ex
 
 ```bash
 npm install
-npm test          # unit + component + integration + a11y
+npm test          # 26 tests across 10 files (16 server + 8 component + 1 integration + 1 a11y)
 npm run build     # server bundle (tsup)
 npm run build:ui  # UI single-file bundle (vite + vite-plugin-singlefile)
 npm run evals     # run evals/evals.json (16 cases)
 ```
+
+### Build & evals order
+
+Run `npm run build` before `npm run evals` (or rely on the `tsx` fallback in `scripts/run-evals.js`). The evals harness imports built artifacts when present and falls back to live TS execution via `tsx` otherwise.
 
 ## Standards & doctrine
 
