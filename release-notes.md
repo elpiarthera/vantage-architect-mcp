@@ -79,7 +79,7 @@ Or in your `mcp.json`:
 
 ## Phase 1 / Phase 2
 
-Phase 1 ships **stdio-only** — remote MCP App demo via Railway is **deferred to Phase 2 (Q4 2026)**. `railway.json` (RAILPACK) is committed in the repo for future activation.
+Phase 1 ships **stdio-only** — remote MCP App demo via Railway is **deferred to Phase 2** (activated based on adoption signal). `railway.json` (RAILPACK) is committed in the repo for future activation.
 
 ---
 

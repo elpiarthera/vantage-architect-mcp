@@ -4,8 +4,6 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) ![MCP App](https://img.shields.io/badge/mcp--app-1.0.0-purple) ![Bilingue](https://img.shields.io/badge/i18n-FR%20%2B%20EN-green) ![WCAG AA](https://img.shields.io/badge/a11y-WCAG%20AA-success)
 
-**SELLABLE AS** : plugin `vantage-architect-mcp` (claudemarketplaces.com) + npm `@vantageos/mcp-architect`.
-
 ## À propos
 
 Les specs écrites en bloc de texte sont lues une fois puis abandonnées. Cette MCP App les rend navigables.
@@ -67,7 +65,7 @@ Pas de clé API. Pas de compte. Puis demandez : "Décompose l'architecture d'un 
 ### Doctrine Flexibilité — Phase 1 / Phase 2
 
 Phase 1 (actuelle) : transport stdio, installation locale, bundle UI fichier unique (68 Ko gzippé), pas de serveur distant, pas d'authentification.
-Phase 2 (prévue) : démo MCP App distante via Railway, tier Pro, auth via Polar.sh. `railway.json` commité dans le repo pour activation future. Calendrier : T4 2026.
+Phase 2 (prévue) : démo MCP App distante via Railway, tier Pro, auth via Polar.sh. `railway.json` commité dans le repo pour activation future. Activée selon le signal d'adoption.
 
 ---
 

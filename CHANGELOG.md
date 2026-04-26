@@ -2,6 +2,11 @@
 
 All notable changes documented here. SemVer strict (Critical Rule #8 mcp-app-standard).
 
+## [1.0.3] - 2026-04-26
+### Changed
+- Cleanup: removed internal "SELLABLE AS" markers and forward-looking timeline references from public surfaces (README EN/FR, release notes).
+- No behavioral or API change. Drop-in replacement for v1.0.2.
+
 ## [1.0.2] - 2026-04-26
 ### Changed
 - Vitrine descriptions across 4 surfaces per ElPi Corp standard.
