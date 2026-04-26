@@ -4,6 +4,10 @@
  * Decomposes a high-level requirement into a hierarchical structured spec tree.
  * Returns the mandatory dual content shape : fallback markdown + ui:// resource
  * (Critical Rule #1 mcp-app-standard).
+ *
+ * v1.1.0 — domain-specific template matching (Closes #3).
+ * Scores 12 handcrafted FR+EN domain templates via keyword index.
+ * Falls back to v1.0 generic heuristic when no template matches.
  */
 import { z } from "zod";
 import { LocaleSchema, NodeSchema } from "../schemas/node.js";
@@ -11,6 +15,7 @@ import {
   decompose,
   freshTreeId,
 } from "../lib/decompose.js";
+import { matchAndBuild } from "../lib/template-matcher.js";
 import { flatCount, indexTree } from "../lib/store.js";
 import { renderMarkdownTree } from "../lib/fallback.js";
 import { buildUiResource } from "../lib/ui-resource.js";
@@ -38,6 +43,12 @@ export const inputSchema = z.object({
   locale: LocaleSchema.default("en").describe(
     "Locale for output: 'en' (default) | 'fr'",
   ),
+  augment: z
+    .enum(["none", "llm"])
+    .default("none")
+    .describe(
+      "Augmentation mode: 'none' (default, template + heuristic) | 'llm' (Phase 2 reserved — requires ANTHROPIC_API_KEY env).",
+    ),
 });
 
 export const outputSchema = z.object({
@@ -76,7 +87,27 @@ export async function handler(rawInput: unknown) {
     }
     throw e;
   }
-  const root = decompose(input);
+
+  // ---------------------------------------------------------------------------
+  // v1.1.0 — Try domain template matching first
+  // ---------------------------------------------------------------------------
+  const matchResult = matchAndBuild({
+    requirement: input.requirement,
+    locale: input.locale,
+    depth: input.depth,
+  });
+
+  let root: ReturnType<typeof decompose>;
+  let caveat: string | undefined;
+
+  if (matchResult.matched) {
+    root = matchResult.root;
+  } else {
+    // Fallback to v1.0 generic heuristic
+    root = decompose(input);
+    caveat = matchResult.caveat;
+  }
+
   const tree_id = freshTreeId();
   const fetchedAt = new Date().toISOString();
   const stored = {
@@ -103,9 +134,14 @@ export async function handler(rawInput: unknown) {
     fetchedAt,
   };
 
+  // Prepend caveat to markdown when fallback was used
+  const markdownText = caveat
+    ? `> ${caveat}\n\n${fallbackMarkdown}`
+    : fallbackMarkdown;
+
   return {
     content: [
-      { type: "text" as const, text: fallbackMarkdown },
+      { type: "text" as const, text: markdownText },
       { type: "resource" as const, resource: ui },
     ],
     structuredContent: structured,

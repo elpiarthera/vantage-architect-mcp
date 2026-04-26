@@ -1,8 +1,8 @@
 {
   "name": "vantage-architect-mcp evals",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "tool_count": 4,
-  "case_count": 16,
+  "case_count": 21,
   "fallback_cases": 4,
   "cases": [
     {
@@ -129,6 +129,78 @@
       "input": { "format": "json", "locale": "en" },
       "client_supports_ui": false,
       "expect": { "content.0.type": "text", "content.0.text.parsesAsJson": true }
+    },
+    {
+      "id": "decompose-domain-saas-stripe",
+      "tool": "decompose_spec",
+      "input": {
+        "requirement": "Build a SaaS B2B dashboard for enterprise teams with Stripe billing, multi-tenant organisation isolation, RBAC permissions, and real-time analytics.",
+        "domain": "software",
+        "depth": 3,
+        "locale": "en"
+      },
+      "expect": {
+        "structuredContent.root.metadata.domain_template": "saas-b2b-dashboard",
+        "structuredContent.root.metadata.from_template": true,
+        "content.length": 2
+      }
+    },
+    {
+      "id": "decompose-domain-marketplace",
+      "tool": "decompose_spec",
+      "input": {
+        "requirement": "Build a 2-sided marketplace where sellers list products and buyers purchase, with payment split, commission, ratings, and reviews.",
+        "domain": "software",
+        "depth": 3,
+        "locale": "en"
+      },
+      "expect": {
+        "structuredContent.root.metadata.domain_template": "marketplace-2-sided",
+        "structuredContent.flat_count.gte": 8,
+        "content.length": 2
+      }
+    },
+    {
+      "id": "decompose-domain-mobile",
+      "tool": "decompose_spec",
+      "input": {
+        "requirement": "Build a mobile app for iOS and Android consumers with push notifications, in-app purchases, social feed, and offline mode.",
+        "domain": "software",
+        "depth": 3,
+        "locale": "en"
+      },
+      "expect": {
+        "structuredContent.root.metadata.domain_template": "mobile-app-consumer",
+        "content.length": 2
+      }
+    },
+    {
+      "id": "decompose-domain-fintech",
+      "tool": "decompose_spec",
+      "input": {
+        "requirement": "Build a fintech application with KYC identity verification, double-entry ledger, AML transaction monitoring, and PSD2 open banking integration.",
+        "domain": "software",
+        "depth": 3,
+        "locale": "fr"
+      },
+      "expect": {
+        "structuredContent.root.metadata.domain_template": "fintech-app",
+        "content.length": 2
+      }
+    },
+    {
+      "id": "decompose-domain-fallback-caveat",
+      "tool": "decompose_spec",
+      "input": {
+        "requirement": "Explore migratory patterns of ancient butterfly species across alpine meadows using photographic surveys and written field journals.",
+        "domain": "software",
+        "depth": 2,
+        "locale": "en"
+      },
+      "expect": {
+        "content.0.text.contains": "No domain template matched",
+        "content.length": 2
+      }
     }
   ]
 }
