@@ -2,6 +2,13 @@
 
 All notable changes documented here. SemVer strict (Critical Rule #8 mcp-app-standard).
 
+## [1.0.7] - 2026-04-26
+### Fixed
+- **CRITICAL** tools/list inputSchema returned Zod runtime objects instead of valid JSON Schema. MCP clients (Claude Code) could not parse → 4 tools NON-LOADED in user catalog. v1.0.7 applies `zodToJsonSchema()` conversion at tool registration. Closes #1.
+
+### Added
+- Smoke gate Step 4 (lesson #16): pre-publish verifies tools/list response contains no Zod markers (_def, ~standard, _cached) and includes valid JSON Schema (type:object). Prevents Day 51 PM v1.0.6 type incident from recurring.
+
 ## [1.0.6] - 2026-04-26
 ### Fixed
 - **CRITICAL** decompose_spec (and audited 4 tools: decompose_spec, expand_node, render_architecture, export_spec) returned malformed MCP content[] — items must conform to `{type:"text"|"image"|"resource"|"resource_link"|"audio", ...}`. The `resource` content-block in v1.0.5 used non-standard fields (`bundle`, `props`) instead of the required `text` (or `blob`) field. This caused client error -32602 "Invalid tools/call result". Fix: `buildUiResource` now reads the HTML bundle from disk, injects props via `<script>window.__MCP_PROPS__ = {...}</script>`, and returns a fully spec-compliant `{ uri, mimeType: "text/html", text: inlinedHtml }` block. Structured data remains in `structuredContent` top-level field (unchanged).

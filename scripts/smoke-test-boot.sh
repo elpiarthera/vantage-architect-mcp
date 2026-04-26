@@ -18,7 +18,7 @@ if [[ "$INIT" != *'"protocolVersion"'* ]]; then
   echo "Output: $INIT"
   exit 1
 fi
-echo "Smoke 1/3 PASS — initialize"
+echo "Smoke 1/4 PASS — initialize"
 
 # Step 2 — tools/list
 LIST=$(printf '%s\n%s\n' \
@@ -30,7 +30,7 @@ if [[ "$LIST" != *'"name":"decompose_spec"'* ]]; then
   echo "Output: $LIST"
   exit 1
 fi
-echo "Smoke 2/3 PASS — tools/list"
+echo "Smoke 2/4 PASS — tools/list"
 
 # Step 3 — tools/call decompose_spec (core content-block validation)
 CALL=$(printf '%s\n%s\n%s\n' \
@@ -53,6 +53,25 @@ if [[ "$CALL" != *'"content"'* ]]; then
   echo "Output: $CALL"
   exit 1
 fi
-echo "Smoke 3/3 PASS — tools/call decompose_spec"
+echo "Smoke 3/4 PASS — tools/call decompose_spec"
+
+# Step 4 — Validate tools/list returns valid JSON Schema (lesson #16)
+LIST_RESPONSE=$(printf '%s\n%s\n' \
+  '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"smoke","version":"1.0"}}}' \
+  '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}' \
+  | timeout 5 node dist/index.js 2>&1)
+# Must NOT contain Zod runtime markers
+if [[ "$LIST_RESPONSE" == *'"_def"'* ]] || [[ "$LIST_RESPONSE" == *'"~standard"'* ]] || [[ "$LIST_RESPONSE" == *'"_cached"'* ]]; then
+  echo "FATAL: tools/list inputSchema contains Zod runtime markers (lesson #16) — must use zodToJsonSchema() conversion"
+  echo "Output: $LIST_RESPONSE"
+  exit 1
+fi
+# Must contain valid JSON Schema markers
+if [[ "$LIST_RESPONSE" != *'"type":"object"'* ]]; then
+  echo "FATAL: tools/list inputSchema not valid JSON Schema (no type:object)"
+  echo "Output: $LIST_RESPONSE"
+  exit 1
+fi
+echo "Smoke 4/4 PASS — tools/list inputSchema is valid JSON Schema (lesson #16 baked)"
 echo ""
-echo "All 3 smoke tests PASS (initialize -> tools/list -> tools/call)"
+echo "All 4 smoke tests PASS (initialize -> tools/list -> tools/call -> JSON Schema validation)"

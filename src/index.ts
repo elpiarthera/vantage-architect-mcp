@@ -7,6 +7,7 @@
  * deployment (Track C T6.C.9 — not auto-deployed).
  */
 import { createServer, getTool, TOOLS } from "./server.js";
+import { zodToJsonSchema } from "zod-to-json-schema";
 
 async function main(): Promise<void> {
   const server = createServer();
@@ -50,7 +51,9 @@ async function main(): Promise<void> {
       tools: TOOLS.map((t) => ({
         name: t.name,
         description: t.description,
-        inputSchema: t.inputSchema,
+        // lesson #16: convert Zod schema → valid JSON Schema before exposing to MCP clients
+        // Runtime validation in handlers still uses the original Zod schema (t.inputSchema.parse)
+        inputSchema: zodToJsonSchema(t.inputSchema, { target: "openApi3" }) as Record<string, unknown>,
       })),
     }));
 
