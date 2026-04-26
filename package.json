@@ -1,6 +1,6 @@
 {
   "name": "@vantageos/mcp-architect",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "MCP App: turn any requirement into a hierarchical drill-down spec tree. 4 tools, interactive UI + Markdown fallback. First io.modelcontextprotocol/ui app.",
   "description_fr": "MCP App : transformez une exigence en arbre de spec hiérarchique interactif. 4 outils, UI drill-down + fallback Markdown. Premier sur io.modelcontextprotocol/ui.",
   "keywords": [
@@ -48,7 +48,9 @@
     "test:a11y": "vitest run tests/a11y",
     "test:component": "vitest run tests/component",
     "test:integration": "vitest run tests/integration",
-    "evals": "node scripts/run-evals.js",
+    "evals": "tsx scripts/run-evals.js",
+    "smoke": "bash scripts/smoke-test-boot.sh",
+    "prepublishOnly": "npm run build && npm run smoke && npm test && npm run evals",
     "i18n:check": "bash scripts/i18n-parity.sh",
     "size-limit": "node scripts/size-limit.js",
     "lint": "biome check .",

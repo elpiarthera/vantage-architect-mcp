@@ -2,6 +2,14 @@
 
 All notable changes documented here. SemVer strict (Critical Rule #8 mcp-app-standard).
 
+## [1.0.5] - 2026-04-26
+### Fixed
+- **CRITICAL** boot crash on v1.0.4: server `setRequestHandler` was using a custom Zod schema that dropped the required `method` literal. Restored MCP SDK-provided `CallToolRequestSchema` / `ListToolsRequestSchema` imports. Server now boots and responds to MCP `initialize` handshake.
+- Bug #3 (Pi audit): removed input duplication inside tool sub-sections. Input fields remain intact in `structuredContent` top-level; sub-sections contain pure prompts without verbose duplication.
+
+### Added
+- Pre-publish boot smoke test gate (`scripts/smoke-test-boot.sh` + `prepublishOnly`). `node dist/index.js` must respond to `initialize` handshake before publish proceeds. Prevents Day 51 PM type bug (broken package shipped to npm).
+
 ## [1.0.4] - 2026-04-26
 ### Fixed
 - Functional fix: Zod enum validation errors are now surfaced as readable MCP `isError: true` responses (with offending field name + message) instead of being swallowed as a generic "Internal error". Affected tools: `decompose_spec`, `render_architecture`, `expand_node`, `export_spec`.

@@ -23,7 +23,11 @@ async function main(): Promise<void> {
     const stdio: any = await import("@modelcontextprotocol/sdk/server/stdio.js").catch(
       () => null,
     );
-    if (!sdk || !stdio) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const types: any = await import("@modelcontextprotocol/sdk/types.js").catch(
+      () => null,
+    );
+    if (!sdk || !stdio || !types) {
       throw new Error(
         "[vantage-architect] @modelcontextprotocol/sdk not installed — run `npm install` then retry.",
       );
@@ -31,6 +35,7 @@ async function main(): Promise<void> {
 
     const Server = sdk.Server;
     const StdioServerTransport = stdio.StdioServerTransport;
+    const { ListToolsRequestSchema, CallToolRequestSchema } = types;
 
     const mcp = new Server(
       { name: server.name, version: server.version },
@@ -41,20 +46,17 @@ async function main(): Promise<void> {
     );
 
     // Tools list handler.
-    mcp.setRequestHandler(
-      { method: "tools/list" },
-      async () => ({
-        tools: TOOLS.map((t) => ({
-          name: t.name,
-          description: t.description,
-          inputSchema: t.inputSchema,
-        })),
-      }),
-    );
+    mcp.setRequestHandler(ListToolsRequestSchema, async () => ({
+      tools: TOOLS.map((t) => ({
+        name: t.name,
+        description: t.description,
+        inputSchema: t.inputSchema,
+      })),
+    }));
 
     // Tools call handler.
     mcp.setRequestHandler(
-      { method: "tools/call" },
+      CallToolRequestSchema,
       async (req: { params: { name: string; arguments: unknown } }) => {
         const tool = getTool(req.params.name);
         if (!tool) throw new Error(`unknown tool: ${req.params.name}`);
