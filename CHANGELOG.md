@@ -2,6 +2,18 @@
 
 All notable changes documented here. SemVer strict (Critical Rule #8 mcp-app-standard).
 
+## [1.1.0] - 2026-04-26
+### Added
+- `decompose_spec` domain-specific templates (Closes #3): 12 handcrafted FR+EN templates covering saas-b2b-dashboard / mobile-app-consumer / marketplace-2-sided / api-product / internal-admin-tool / data-pipeline / ml-product / content-platform / ecommerce-storefront / iot-platform / fintech-app / dev-tool-cli. Keyword index (word-boundary-aware, plural-safe) activates conditional modules (billing, multi-tenant, real-time, i18n, push, IAP, social, open-banking, crypto, etc.) based on requirement content. Generates requirement-specific node names instead of generic verbs ("Authentication & RBAC" not "Implement Frontend").
+- New optional `augment: "none" | "llm"` parameter on `decompose_spec` (Phase 2 reserved for LLM-augmented mode; "llm" value is accepted but treated as "none" until ANTHROPIC_API_KEY integration in v1.2+).
+- 5 new domain-template eval cases in `evals/evals.json`.
+- 10 new unit tests in `tests/unit/decompose_spec-domain-templates.test.ts`.
+
+### Changed
+- `decompose_spec` default behaviour: domain template matching first (score > 0), fallback to v1.0 generic heuristic + inline caveat suggesting specific keywords when no template matches. 100% backward-compatible — all v1.0.x clients get the same dual content shape.
+
+Built by: Gamma (γ) (via mcp-server-builder specialist) | bu-mcp BU | 2026-04-26
+
 ## [1.0.7] - 2026-04-26
 ### Fixed
 - **CRITICAL** tools/list inputSchema returned Zod runtime objects instead of valid JSON Schema. MCP clients (Claude Code) could not parse → 4 tools NON-LOADED in user catalog. v1.0.7 applies `zodToJsonSchema()` conversion at tool registration. Closes #1.

@@ -1,6 +1,6 @@
 {
   "name": "vantage-architect-mcp",
-  "version": "1.0.7",
+  "version": "1.1.0",
   "description": "MCP App: turn any requirement into a hierarchical drill-down spec tree. 4 tools, interactive UI + Markdown fallback. First io.modelcontextprotocol/ui app.",
   "description_fr": "MCP App : transformez une exigence en arbre de spec hiérarchique interactif. 4 outils, UI drill-down + fallback Markdown. Premier sur io.modelcontextprotocol/ui.",
   "transport": {

@@ -2,7 +2,7 @@
   "name": "vantage-architect",
   "displayName": "Vantage Architect (MCP App)",
   "displayName_fr": "Vantage Architect (MCP App)",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Turns a requirement into a structured visual spec/plan with hierarchical drill-down. First ElPi Corp MCP App.",
   "description_fr": "Transforme une exigence en spec/plan visuelle structurée avec drill-down hiérarchique. Première MCP App ElPi Corp.",
   "publisher": "elpi-corp",
