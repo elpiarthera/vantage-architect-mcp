@@ -1,8 +1,8 @@
 {
   "name": "vantage-architect-mcp",
-  "version": "1.0.1",
-  "description": "MCP App producing structured visual spec/plan trees with drill-down. First ElPi Corp MCP App on io.modelcontextprotocol/ui. Bilingual FR+EN.",
-  "description_fr": "MCP App produisant des arbres de spec/plan visuels structurés avec drill-down. Première MCP App ElPi Corp sur io.modelcontextprotocol/ui. Bilingue FR+EN.",
+  "version": "1.0.2",
+  "description": "MCP App: turn any requirement into a hierarchical drill-down spec tree. 4 tools, interactive UI + Markdown fallback. First io.modelcontextprotocol/ui app.",
+  "description_fr": "MCP App : transformez une exigence en arbre de spec hiérarchique interactif. 4 outils, UI drill-down + fallback Markdown. Premier sur io.modelcontextprotocol/ui.",
   "transport": {
     "type": "stdio",
     "command": "npx",

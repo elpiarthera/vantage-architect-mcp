@@ -6,6 +6,73 @@
 
 **SELLABLE AS** : plugin `vantage-architect-mcp` (claudemarketplaces.com) + npm `@vantageos/mcp-architect`.
 
+## À propos
+
+Les specs écrites en bloc de texte sont lues une fois puis abandonnées. Cette MCP App les rend navigables.
+
+`@vantageos/mcp-architect` est la première MCP App construite sur le standard `io.modelcontextprotocol/ui` (stable depuis le 2026-01-26). Elle décompose n'importe quelle exigence — un système logiciel, un plan produit, une refonte de processus — en un arbre de composants structuré que votre client MCP affiche directement sous forme d'arbre interactif à drill-down. Les clients sans support UI reçoivent les mêmes données sous forme de Markdown hiérarchisé lisible. Aucune dégradation dans les deux cas.
+
+### Ce qu'elle fait
+
+Quatre outils, un seul modèle mental : décomposer, visualiser, approfondir, exporter.
+
+| Outil | Ce que vous obtenez |
+|---|---|
+| `decompose_spec` | Une exigence en entrée, un arbre de composants hiérarchique en sortie. Domaines : `software`, `product`, `process`, `research`. Profondeur 1-4. Bilingue via le paramètre `locale`. |
+| `render_architecture` | Affiche un arbre existant en vue `tree`, `graph` ou `matrix`. Appelé après `decompose_spec` ou de manière autonome. |
+| `expand_node` | Approfondissement d'un nœud par clic dans l'UI — appelle le serveur via le protocole bridge. Pas de rechargement, pas de nouveau prompt. |
+| `export_spec` | Exporte l'arbre courant en `markdown`, `json` ou diagramme `mermaid`. Depuis le panneau ExportPanel ou directement via l'outil. |
+
+Chaque outil retourne un double contenu : une ressource `ui://` pour les clients compatibles UI et un bloc Markdown pour les autres. Ceci est non-négociable — imposé par la Critical Rule n°1 du standard MCP App.
+
+### Pour qui
+
+- Architectes logiciels et lead developers qui décomposent des exigences complexes avant le sprint planning
+- Product managers ayant besoin de specs structurées que leurs équipes peuvent parcourir, pas de documents à fouiller
+- Équipes techniques utilisant des clients MCP compatibles UI (Claude Desktop, VS Code Insiders, MCPJam, ChatGPT MCP) qui veulent une sortie visuelle plutôt que de la prose
+
+### Pourquoi c'est différent
+
+Aucun autre serveur MCP ne retourne un composant UI interactif en accompagnement de sa sortie texte. C'est la première implémentation de `io.modelcontextprotocol/ui` (stable depuis le 2026-01-26) en tant que produit livré et testé — pas une démo. Le bundle UI fait 68 Ko gzippé, est conforme WCAG AA et ne contient aucun appel réseau externe.
+
+### Démarrage rapide
+
+```bash
+npx -y @vantageos/mcp-architect
+```
+
+Ajoutez dans `mcp.json` :
+
+```json
+{
+  "mcpServers": {
+    "vantage-architect": {
+      "command": "npx",
+      "args": ["-y", "@vantageos/mcp-architect"]
+    }
+  }
+}
+```
+
+Pas de clé API. Pas de compte. Puis demandez : "Décompose l'architecture d'un SaaS multi-tenant avec collaboration en temps réel."
+
+### Exemples
+
+**Architecture logicielle :** Appelez `decompose_spec` avec une exigence microservices à `depth: 3`. Obtenez un arbre avec composants, modules et tâches. Cliquez sur n'importe quel nœud pour l'approfondir via `expand_node`.
+
+**Planification produit :** Utilisez `domain: "product"` pour décomposer un brief produit en fonctionnalités, dépendances et décisions ouvertes — chaque nœud typé (`feature`, `task`, `decision`).
+
+**Export Mermaid :** Appelez `export_spec` avec `format: "mermaid"` pour obtenir un diagramme à coller directement dans votre document de spec technique.
+
+### Doctrine Flexibilité — Phase 1 / Phase 2
+
+Phase 1 (actuelle) : transport stdio, installation locale, bundle UI fichier unique (68 Ko gzippé), pas de serveur distant, pas d'authentification.
+Phase 2 (prévue) : démo MCP App distante via Railway, tier Pro, auth via Polar.sh. `railway.json` commité dans le repo pour activation future. Calendrier : T4 2026.
+
+---
+
+Licence MIT — Auteur : ElPi Corp / Laurent Perello — Source : [github.com/elpiarthera/vantage-architect-mcp](https://github.com/elpiarthera/vantage-architect-mcp)
+
 ## Pourquoi
 
 Une spec ou un plan se rendent d'habitude sous forme d'un mur de texte. Cette MCP App les retourne en arbre de composants interactifs, rendu inline par votre client (Claude desktop, ChatGPT MCP, VS Code Insiders, MCPJam, …), avec drill-down sur chaque nœud. Les clients qui ne supportent pas l'extension UI reçoivent un rendu Markdown propre — mêmes données, sans dégradation.

@@ -1,8 +1,8 @@
 {
   "name": "@vantageos/mcp-architect",
-  "version": "1.0.1",
-  "description": "MCP App that turns a high-level requirement into a structured visual spec/plan (hierarchical drill-down). First ElPi Corp MCP App built on the io.modelcontextprotocol/ui standard. Bilingual FR+EN.",
-  "description_fr": "MCP App qui transforme une exigence haut niveau en une spec/plan visuelle structurée (drill-down hiérarchique). Première MCP App ElPi Corp basée sur le standard io.modelcontextprotocol/ui. Bilingue FR+EN.",
+  "version": "1.0.2",
+  "description": "MCP App: turn any requirement into a hierarchical drill-down spec tree. 4 tools, interactive UI + Markdown fallback. First io.modelcontextprotocol/ui app.",
+  "description_fr": "MCP App : transformez une exigence en arbre de spec hiérarchique interactif. 4 outils, UI drill-down + fallback Markdown. Premier sur io.modelcontextprotocol/ui.",
   "keywords": [
     "mcp",
     "mcp-app",

@@ -2,6 +2,11 @@
 
 All notable changes documented here. SemVer strict (Critical Rule #8 mcp-app-standard).
 
+## [1.0.2] - 2026-04-26
+### Changed
+- Vitrine descriptions across 4 surfaces per ElPi Corp standard.
+- No behavioral or API change.
+
 ## [1.0.1] - 2026-04-26
 ### Changed
 - Renamed npm scope `@vantage` → `@vantageos` for ElPi Corp brand unification.
