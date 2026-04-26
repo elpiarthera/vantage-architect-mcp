@@ -1,0 +1,89 @@
+{
+  "name": "@vantage/mcp-architect",
+  "version": "1.0.0",
+  "description": "MCP App that turns a high-level requirement into a structured visual spec/plan (hierarchical drill-down). First ElPi Corp MCP App built on the io.modelcontextprotocol/ui standard. Bilingual FR+EN.",
+  "description_fr": "MCP App qui transforme une exigence haut niveau en une spec/plan visuelle structurée (drill-down hiérarchique). Première MCP App ElPi Corp basée sur le standard io.modelcontextprotocol/ui. Bilingue FR+EN.",
+  "keywords": [
+    "mcp",
+    "mcp-app",
+    "claude-code",
+    "architect",
+    "spec",
+    "plan",
+    "decomposition",
+    "drill-down",
+    "ui-extension",
+    "vantage",
+    "elpi"
+  ],
+  "license": "MIT",
+  "author": "ElPi Corp / Laurent Perello",
+  "homepage": "https://github.com/elpiarthera/vantage-architect-mcp",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elpiarthera/vantage-architect-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/elpiarthera/vantage-architect-mcp/issues"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "vantage-architect-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "README.fr.md",
+    "LICENSE",
+    "mcp.json",
+    ".claude-plugin"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --target node20 --dts",
+    "build:ui": "vite build && node scripts/relocate-bundle.js",
+    "dev": "tsx src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:a11y": "vitest run tests/a11y",
+    "test:component": "vitest run tests/component",
+    "test:integration": "vitest run tests/integration",
+    "evals": "node scripts/run-evals.js",
+    "i18n:check": "bash scripts/i18n-parity.sh",
+    "size-limit": "node scripts/size-limit.js",
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "peerDependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "dependencies": {
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@testing-library/jest-dom": "^6.4.0",
+    "@testing-library/react": "^16.0.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "axe-core": "^4.10.0",
+    "jsdom": "^25.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.0",
+    "tsup": "^8.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.5.0",
+    "vite": "^5.4.0",
+    "vite-plugin-singlefile": "^2.0.0",
+    "vitest": "^1.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

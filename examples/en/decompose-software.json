@@ -1,0 +1,9 @@
+{
+  "tool": "decompose_spec",
+  "input": {
+    "requirement": "Build a multi-tenant document collaboration SaaS with real-time editing, comments, and version history.",
+    "domain": "software",
+    "depth": 3,
+    "locale": "en"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "mcp_servers": [
+    {
+      "name": "vantage-architect",
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "@vantage/mcp-architect"],
+      "extensions": ["io.modelcontextprotocol/ui"]
+    }
+  ]
+}

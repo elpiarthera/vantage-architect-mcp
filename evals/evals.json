@@ -1,0 +1,134 @@
+{
+  "name": "vantage-architect-mcp evals",
+  "version": "1.0.0",
+  "tool_count": 4,
+  "case_count": 16,
+  "fallback_cases": 4,
+  "cases": [
+    {
+      "id": "decompose-en-software",
+      "tool": "decompose_spec",
+      "input": {
+        "requirement": "Build a multi-tenant document collaboration SaaS with real-time editing, comments, and version history.",
+        "domain": "software",
+        "depth": 3,
+        "locale": "en"
+      },
+      "expect": { "structuredContent.flat_count.gte": 6, "content.length": 2 }
+    },
+    {
+      "id": "decompose-fr-product",
+      "tool": "decompose_spec",
+      "input": {
+        "requirement": "Concevoir une plateforme produit pour les coachs francophones, avec onboarding, suivi clients, paiements.",
+        "domain": "product",
+        "depth": 2,
+        "locale": "fr"
+      },
+      "expect": { "structuredContent.root.children.0.name.match": "Découverte|Périmètre|UX|Lancement|Indicateurs" }
+    },
+    {
+      "id": "decompose-invalid-too-short",
+      "tool": "decompose_spec",
+      "input": { "requirement": "short", "domain": "software", "depth": 3, "locale": "en" },
+      "expect": { "throws": true }
+    },
+    {
+      "id": "decompose-fallback-no-ui",
+      "tool": "decompose_spec",
+      "input": {
+        "requirement": "Build a multi-tenant document collaboration SaaS with real-time editing, comments, and version history.",
+        "domain": "software",
+        "depth": 2,
+        "locale": "en"
+      },
+      "client_supports_ui": false,
+      "expect": { "content.0.type": "text", "content.0.text.contains": "**" }
+    },
+    {
+      "id": "render-tree-en",
+      "tool": "render_architecture",
+      "depends_on": "decompose-en-software",
+      "input": { "view": "tree", "locale": "en" },
+      "expect": { "content.length": 2 }
+    },
+    {
+      "id": "render-matrix-fr",
+      "tool": "render_architecture",
+      "depends_on": "decompose-en-software",
+      "input": { "view": "matrix", "locale": "fr" },
+      "expect": { "structuredContent.view": "matrix" }
+    },
+    {
+      "id": "render-invalid-tree-id",
+      "tool": "render_architecture",
+      "input": { "tree_id": "tree_doesnotexist", "view": "tree", "locale": "en" },
+      "expect": { "throws": true }
+    },
+    {
+      "id": "render-fallback-no-ui",
+      "tool": "render_architecture",
+      "depends_on": "decompose-en-software",
+      "input": { "view": "tree", "locale": "en" },
+      "client_supports_ui": false,
+      "expect": { "content.0.type": "text", "content.0.text.minLength": 20 }
+    },
+    {
+      "id": "expand-intermediate",
+      "tool": "expand_node",
+      "depends_on": "decompose-en-software",
+      "input": { "expansion_depth": 1, "locale": "en", "node_index": "root.children.0" },
+      "expect": { "structuredContent.expanded.children.length.gt": 0 }
+    },
+    {
+      "id": "expand-leaf",
+      "tool": "expand_node",
+      "depends_on": "decompose-en-software",
+      "input": { "expansion_depth": 1, "locale": "en", "node_index": "root.children.0.children.0" },
+      "expect": { "structuredContent.expanded.children.length.gt": 0 }
+    },
+    {
+      "id": "expand-invalid-id",
+      "tool": "expand_node",
+      "input": { "node_id": "node_does_not_exist", "expansion_depth": 1, "locale": "en" },
+      "expect": { "throws": true }
+    },
+    {
+      "id": "expand-fallback-no-ui",
+      "tool": "expand_node",
+      "depends_on": "decompose-en-software",
+      "input": { "expansion_depth": 1, "locale": "en", "node_index": "root.children.0" },
+      "client_supports_ui": false,
+      "expect": { "content.0.type": "text", "content.0.text.contains": "###" }
+    },
+    {
+      "id": "export-markdown",
+      "tool": "export_spec",
+      "depends_on": "decompose-en-software",
+      "input": { "format": "markdown", "locale": "en" },
+      "expect": { "structuredContent.payload.contains": "**" }
+    },
+    {
+      "id": "export-mermaid",
+      "tool": "export_spec",
+      "depends_on": "decompose-en-software",
+      "input": { "format": "mermaid", "locale": "en" },
+      "expect": { "structuredContent.payload.startsWith": "graph TD" }
+    },
+    {
+      "id": "export-invalid-format",
+      "tool": "export_spec",
+      "depends_on": "decompose-en-software",
+      "input": { "format": "pdf", "locale": "en" },
+      "expect": { "throws": true }
+    },
+    {
+      "id": "export-fallback-no-ui",
+      "tool": "export_spec",
+      "depends_on": "decompose-en-software",
+      "input": { "format": "json", "locale": "en" },
+      "client_supports_ui": false,
+      "expect": { "content.0.type": "text", "content.0.text.parsesAsJson": true }
+    }
+  ]
+}

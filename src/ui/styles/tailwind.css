@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+/* Reduced motion respected globally (Critical Rule #5 a11y). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

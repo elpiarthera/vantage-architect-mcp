@@ -1,0 +1,9 @@
+{
+  "tool": "decompose_spec",
+  "input": {
+    "requirement": "Concevoir une plateforme produit pour les coachs francophones, avec onboarding, suivi clients et paiements.",
+    "domain": "product",
+    "depth": 2,
+    "locale": "fr"
+  }
+}
