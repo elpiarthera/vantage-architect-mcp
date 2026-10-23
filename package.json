@@ -90,7 +90,7 @@
     "access": "public"
   },
   "overrides": {
-    "fast-uri": "3.1.7",
+    "fast-uri": "3.1.9",
     "proxy-addr": "2.0.8"
   }
 }
