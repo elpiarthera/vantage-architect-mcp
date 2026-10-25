@@ -7,7 +7,7 @@
  * deployment (Track C T6.C.9 — not auto-deployed).
  */
 import { createServer, getTool, TOOLS } from "./server.js";
-import { zodToJsonSchema } from "zod-to-json-schema";
+import { z } from "zod";
 
 async function main(): Promise<void> {
   const server = createServer();
@@ -53,7 +53,8 @@ async function main(): Promise<void> {
         description: t.description,
         // lesson #16: convert Zod schema → valid JSON Schema before exposing to MCP clients
         // Runtime validation in handlers still uses the original Zod schema (t.inputSchema.parse)
-        inputSchema: zodToJsonSchema(t.inputSchema, { target: "openApi3" }) as Record<string, unknown>,
+        // zod 4 ships its own converter; zod-to-json-schema does not read zod 4 schemas.
+        inputSchema: z.toJSONSchema(t.inputSchema, { target: "openapi-3.0", io: "input" }) as Record<string, unknown>,
       })),
     }));
 
