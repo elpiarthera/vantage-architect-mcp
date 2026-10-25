@@ -43,7 +43,7 @@ export async function handler(rawInput: unknown) {
     input = inputSchema.parse(rawInput);
   } catch (e) {
     if (e instanceof z.ZodError) {
-      const msg = e.errors
+      const msg = e.issues
         .map(
           (err) => `${err.path.join(".") || "<root>"}: ${err.message}`,
         )

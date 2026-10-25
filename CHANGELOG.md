@@ -2,6 +2,12 @@
 
 All notable changes documented here. SemVer strict (Critical Rule #8 mcp-app-standard).
 
+## [Unreleased]
+
+### Security
+
+- Runtime: `zod` `^3.23.0` → `^4.6.7` (GHSA-mrhx-c7xc-m3w5, memory exhaustion while validating oversized constrained collections; no fixed 3.x release, fixed in 4.6.6). `tools/list` input schemas are now produced by zod 4's native `z.toJSONSchema` (target `openapi-3.0`, input side); the direct `zod-to-json-schema` dependency is removed because it does not read zod 4 schemas. `ZodError.errors` → `.issues`.
+
 ## [1.1.0] - 2026-04-26
 ### Added
 - `decompose_spec` domain-specific templates (Closes #3): 12 handcrafted FR+EN templates covering saas-b2b-dashboard / mobile-app-consumer / marketplace-2-sided / api-product / internal-admin-tool / data-pipeline / ml-product / content-platform / ecommerce-storefront / iot-platform / fintech-app / dev-tool-cli. Keyword index (word-boundary-aware, plural-safe) activates conditional modules (billing, multi-tenant, real-time, i18n, push, IAP, social, open-banking, crypto, etc.) based on requirement content. Generates requirement-specific node names instead of generic verbs ("Authentication & RBAC" not "Implement Frontend").
